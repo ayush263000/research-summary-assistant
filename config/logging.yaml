@@ -1,0 +1,49 @@
+version: 1
+disable_existing_loggers: False
+
+formatters:
+  default:
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  detailed:
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(module)s - %(funcName)s - %(message)s'
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: INFO
+    formatter: default
+    stream: ext://sys.stdout
+
+  file:
+    class: logging.FileHandler
+    level: DEBUG
+    formatter: detailed
+    filename: logs/app.log
+    mode: a
+
+  error_file:
+    class: logging.FileHandler
+    level: ERROR
+    formatter: detailed
+    filename: logs/error.log
+    mode: a
+
+loggers:
+  app:
+    level: DEBUG
+    handlers: [console, file]
+    propagate: no
+
+  uvicorn:
+    level: WARNING
+    handlers: [console]
+    propagate: no
+
+  openai:
+    level: WARNING
+    handlers: [console]
+    propagate: no
+
+root:
+  level: INFO
+  handlers: [console, file, error_file]
