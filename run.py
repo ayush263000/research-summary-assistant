@@ -37,7 +37,7 @@ def run_fastapi():
 
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "--api-only":
-        print("Starting FastAPI backend only...")
+        print("Starting FastAPI backend only..")
         run_fastapi()
     else:
         print("Starting Document-Aware GenAI Assistant...")
