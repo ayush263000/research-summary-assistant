@@ -19,7 +19,7 @@ def run_streamlit():
         sys.executable, "-m", "streamlit", "run", 
         str(frontend_path),
         "--server.port=8501",
-        "--server.address=localhost"
+        "--server.address=0.0.0.0"  # Allow access from any IP
     ]
     subprocess.run(cmd)
 
@@ -30,7 +30,7 @@ def run_fastapi():
     
     uvicorn.run(
         "app.api.main:app",
-        host="localhost",
+        host="0.0.0.0",  # Allow access from any IP
         port=8000,
         reload=True
     )
