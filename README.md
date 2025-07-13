@@ -175,7 +175,163 @@ document-genai-assistant/
 4. Answer multiple-choice questions
 5. Get immediate feedback and explanations
 
-## 🛠️ Development
+## � API Testing with Postman
+
+The project includes comprehensive Postman collections for testing all API endpoints, making it easy to integrate with other applications or test the backend independently.
+
+### 📁 Available Files
+
+- **`postman_collection.json`** - Complete API testing collection with 15+ endpoints
+- **`postman_environment.json`** - Environment variables with auto-population
+- **`README_POSTMAN_REMOTE.md`** - Detailed setup guide for remote users
+
+### 🚀 Quick Setup (Local Testing)
+
+1. **Import Collection**
+   - Open Postman
+   - Click **Import** → Drop `postman_collection.json`
+   - Click **Import** → Drop `postman_environment.json`
+
+2. **Select Environment**
+   - Choose **"Document GenAI Assistant Environment"** from dropdown
+   - All variables auto-configured for localhost testing
+
+3. **Start Testing**
+   ```bash
+   python run.py  # Start the application
+   ```
+   - Test **Health Check** first to verify connection
+   - Upload documents and test Q&A functionality
+
+### 🌐 Remote/Network Testing
+
+For testing from other computers or sharing with team members:
+
+#### **Option 1: Same Network (WiFi/LAN)**
+1. **Find Host IP Address**
+   ```bash
+   # On macOS/Linux
+   ifconfig | grep "inet " | grep -v 127.0.0.1
+   
+   # On Windows
+   ipconfig | findstr "IPv4"
+   ```
+
+2. **Update Environment Variables**
+   - Edit environment in Postman
+   - Change `base_url` from `http://localhost:8000` to `http://YOUR_IP:8000`
+   - Example: `http://192.168.1.100:8000`
+
+3. **Start Server with Network Access**
+   ```bash
+   python run.py  # Already configured for 0.0.0.0 binding
+   ```
+
+#### **Option 2: Internet Access (Advanced)**
+```bash
+# Using ngrok for public tunnel
+npm install -g ngrok
+ngrok http 8000
+
+# Use the ngrok URL in Postman environment
+# Example: https://abc123.ngrok.io
+```
+
+### 📊 API Endpoints Overview
+
+#### **🏥 Health & Status**
+- **GET** `/health` - Service health check
+- **GET** `/` - Welcome message
+
+#### **📄 Document Management**
+- **POST** `/upload-document/` - Upload PDF/TXT files
+- **GET** `/documents/{document_id}` - Get document details
+- **DELETE** `/documents/{document_id}` - Delete document
+
+#### **❓ Question & Answer**
+- **POST** `/ask-question/` - Ask questions about documents
+- **GET** `/questions/{document_id}` - Get Q&A history
+
+#### **🎯 Challenge Mode**
+- **POST** `/generate-challenge/` - Generate quiz questions
+- **POST** `/evaluate-answer/` - Evaluate quiz answers
+- **GET** `/challenges/{document_id}` - Get challenge history
+
+#### **🔍 Error Testing**
+- Invalid endpoints for testing error handling
+- Rate limiting scenarios
+- File upload validation
+
+### ⚡ Automated Features
+
+#### **Environment Auto-Population**
+- Document IDs automatically captured after upload
+- Base URLs pre-configured for local and network access
+- Challenge questions auto-populate for answer evaluation
+
+#### **Built-in Tests**
+Each request includes automatic validation:
+- **Status Code Checks** - Ensures proper HTTP responses
+- **Response Time Monitoring** - Performance tracking
+- **JSON Schema Validation** - Data structure verification
+- **Error Handling Tests** - Validates error responses
+
+#### **Example Test Flow**
+```javascript
+// Auto-captured from upload response
+pm.environment.set("document_id", responseJson.document_id);
+
+// Used in subsequent requests
+{
+  "document_id": "{{document_id}}",
+  "question": "What is the main topic?"
+}
+```
+
+### 🛠️ Advanced Usage
+
+#### **Custom Environment Variables**
+```json
+{
+  "base_url": "http://localhost:8000",
+  "base_url_network": "http://192.168.1.100:8000",
+  "streamlit_url": "http://localhost:8501",
+  "document_id": "auto-populated",
+  "challenge_question": "auto-populated"
+}
+```
+
+#### **Batch Testing**
+- Use Postman Collection Runner for automated testing
+- Run complete API test suite with one click
+- Generate test reports and export results
+
+#### **Team Collaboration**
+1. **Share Collection**: Send the 3 files to team members
+2. **Update IPs**: Each user updates environment with host IP
+3. **Sync Changes**: Export/import updated collections as needed
+
+### 🔧 Troubleshooting
+
+#### **Common Issues**
+- **Connection Refused**: Verify server is running and IP is correct
+- **404 Errors**: Check base_url format (include `http://`)
+- **File Upload Fails**: Ensure file is PDF/TXT and under 50MB
+- **Timeout**: Check network connectivity and firewall settings
+
+#### **Network Security**
+- Ensure firewall allows connections on ports 8000 and 8501
+- For production use, implement proper authentication
+- Consider using HTTPS with SSL certificates
+
+### 📖 Detailed Documentation
+
+For complete setup instructions for remote users, see:
+- **`README_POSTMAN_REMOTE.md`** - Step-by-step remote setup guide
+- **`POSTMAN_TESTING_GUIDE.md`** - Advanced testing scenarios
+- **`POSTMAN_COLLECTION_REFERENCE.md`** - Complete API reference
+
+## �🛠️ Development
 
 ### Running in Development Mode
 
