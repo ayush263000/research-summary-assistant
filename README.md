@@ -442,6 +442,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - PyPDF2 and pdfminer.six for document processing
 - The open-source community for inspiration and tools
 
+## Demo Video Walkthrough
+
+https://github.com/user-attachments/assets/e871db8e-5b8d-49f8-aca8-75cddad98f07
+
+
 ---
 
 **Built with ❤️ using Google Gemini AI and Streamlit**
